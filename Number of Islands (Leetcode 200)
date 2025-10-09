@@ -1,0 +1,57 @@
+//  Problem: Number of Islands
+//  Approach: Depth First Search (DFS)
+//  Author: Komal Sikchi
+//  Hacktoberfest 2025 Contribution
+
+import java.util.*;
+
+public class Solution {
+
+    // Function to count the number of islands
+    public int numIslands(char[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        int island = 0;
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == '1') {
+                    island++;
+                    dfs(i, j, grid);
+                }
+            }
+        }
+        return island;
+    }
+
+    // Depth First Search to mark connected land
+    public void dfs(int row, int col, char[][] grid) {
+        int newRow = grid.length;
+        int newCol = grid[0].length;
+        int[][] directions = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+        if (row < 0 || col < 0 || row >= newRow || col >= newCol || grid[row][col] == '0') return;
+
+        grid[row][col] = '0'; // mark as visited
+
+        for (int[] dir : directions) {
+            dfs(row + dir[0], col + dir[1], grid);
+        }
+    }
+
+    // 🧾 PSAV (Program Save and Verify) Block — contains main() to test the code
+    public static void main(String[] args) {
+        Solution obj = new Solution();
+
+        // Sample grid (1 = land, 0 = water)
+        char[][] grid = {
+            {'1', '1', '0', '0', '0'},
+            {'1', '1', '0', '0', '0'},
+            {'0', '0', '1', '0', '0'},
+            {'0', '0', '0', '1', '1'}
+        };
+
+        int result = obj.numIslands(grid);
+        System.out.println("Number of Islands: " + result);
+    }
+}

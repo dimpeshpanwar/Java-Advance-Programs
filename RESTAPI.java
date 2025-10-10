@@ -1,5 +1,4 @@
 import static spark.Spark.*;
-
 import com.google.gson.Gson;
 import java.util.*;
 
@@ -10,7 +9,7 @@ public class SimpleApiServer {
         port(8080);
         Gson gson = new Gson();
 
-        get("/tasks", (req, res) -> gson.toJson(tasks));
+        get("/task", (req, res) -> gson.toJson(tasks));
 
         post("/add", (req, res) -> {
             String task = req.queryParams("task");
@@ -19,17 +18,17 @@ public class SimpleApiServer {
                 return "Task added: " + task;
             }
             res.status(400);
-            return "Invalid task!";
+            return "Invalid tasks!";
         });
 
         delete("/delete/:id", (req, res) -> {
             int id = Integer.parseInt(req.params(":id"));
             if (id >= 0 && id < tasks.size()) {
                 String removed = tasks.remove(id);
-                return "Deleted: " + removed;
+                return "Deleted task: " + removed;
             }
             res.status(404);
-            return "Task not found!";
+            return "Tasks not found!";
         });
     }
 }
